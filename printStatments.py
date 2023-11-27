@@ -1,0 +1,5 @@
+modulePrint       = "! This script is being imported as a module."
+mainScript        = "! This script is being run as the main program."
+connectionSuccess = "-----------------------------------------------CONNECTION $UCCE$$FUL-------------------------------------"
+connectionClosed  = "-------------------------------------------------CONNECTION CLO$ED--------------------------------------"
+functionBanner    = "---------------------------------------------------------------------------------------------------------"
