@@ -3,6 +3,7 @@ import psycopg2
 from postgresConnection import connect_to_postgres, close_postgres_connection
 from printStatments import functionBanner
 
+
 def main():
     try:
         # Open connection
@@ -10,7 +11,7 @@ def main():
         connection, cursor = connect_to_postgres()
 
         # Perform database operations here
-        # ...
+        
 
     except (Exception, psycopg2.Error) as error:
         print("Error:", error)
