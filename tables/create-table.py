@@ -1,4 +1,5 @@
 import psycopg2
+from portDetails import portEnv
 
 def create_table_if_not_exists(connection, cursor, table_name, column_names, column_datatypes):
     try:
@@ -30,7 +31,7 @@ if __name__ == "__main__":
         # Establish a connection to the PostgreSQL database
         connection = psycopg2.connect(
             host="localhost",
-            port="5432",
+            port=portEnv,
             database="gisdatabase"
         )
 

@@ -1,12 +1,13 @@
 import psycopg2
 from printStatments import connectionSuccess, modulePrint, mainScript, connectionClosed
+from portDetails import portEnv
 
 def connect_to_postgres():
     try:
         # Establish a connection to the PostgreSQL database
         connection = psycopg2.connect(
             host="localhost",
-            port="5432",
+            port=portEnv,
             database="gisdatabase"
         )
 
@@ -42,7 +43,7 @@ if __name__ == "__main__":
         # Establish a connection to the PostgreSQL database
         connection = psycopg2.connect(
             host="localhost",
-            port="5432",
+            port=portEnv,
             database="gisdatabase"
         )
 
