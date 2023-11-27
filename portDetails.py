@@ -1,4 +1,5 @@
-from decouple import config
+import os
 
 # Read the PORT environment variable from the .env file
-portEnv = config('PORT', default='5432')
+portEnv = os.environ.get('PORT', default='5432')
+assetsTable = "Assets"
