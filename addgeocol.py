@@ -1,5 +1,6 @@
 import psycopg2
 from portDetails import portEnv, assetsTable
+import random
 
 def add_entry_to_postgres(connection, cursor, table_name, data):
     try:
@@ -28,10 +29,10 @@ def add_geography_column(connection, cursor, table_name):
 
         if column_exists == None:
             # Drop the existing 'location' column
-            cursor.execute(f"ALTER TABLE {table_name} DROP COLUMN IF EXISTS location;")
+            cursor.execute(f"ALTER TABLE {table_name} DROP COLUMN IF EXISTS geometry;")
 
         # Add the new 'location' geography column
-        cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN location GEOGRAPHY(Point, 4326);")
+        cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN geometry GEOGRAPHY(Point, 4326);")
 
         # Commit the transaction
         connection.commit()
@@ -40,6 +41,19 @@ def add_geography_column(connection, cursor, table_name):
 
     except (Exception, psycopg2.Error) as error:
         print("Error adding geography column to PostgreSQL table:", error)
+
+def generate_sample_data(num_samples, min_lat, max_lat, min_lon, max_lon):
+    sample_data = []
+    for _ in range(num_samples):
+        title = "Sample Title"
+        group = "Sample Group"
+        address = "Sample Address"
+        city = "Los Angeles"  # Sample City is Los Angeles
+        latitude = round(random.uniform(min_lat, max_lat), 6)
+        longitude = round(random.uniform(min_lon, max_lon), 6)
+        email = "sample@email.com"
+        sample_data.append((title, group, address, city, latitude, longitude, email))
+    return sample_data
 
 if __name__ == "__main__":
     try:
@@ -53,22 +67,24 @@ if __name__ == "__main__":
         # Create a cursor object to interact with the database
         cursor = connection.cursor()
 
-        # Define the table name where you want to add the entry
+        # Define the table name where you want to add the entries
         table_name = assetsTable
 
-        # Define the data you want to insert as a tuple
-        entry_data = (
-            "Sample Title69",
-            "Sample Group",
-            "Sample Address",
-            "Sample City",
-            123.456789,  # Sample latitude
-            -12.345678,  # Sample longitude
-            "sample@email.com"
-        )
+        # Define the number of sample entries to generate
+        num_samples = 10  # You can change this to generate more samples
 
-        # Call the function to add the entry to the table
-        add_entry_to_postgres(connection, cursor, table_name, entry_data)
+        # Define latitude and longitude range for Los Angeles
+        min_latitude = 33.6
+        max_latitude = 34.1
+        min_longitude = -118.6
+        max_longitude = -118.1
+
+        # Generate sample data with random coordinates around Los Angeles
+        sample_data = generate_sample_data(num_samples, min_latitude, max_latitude, min_longitude, max_longitude)
+
+        # Call the function to add the entries to the table
+        for data in sample_data:
+            add_entry_to_postgres(connection, cursor, table_name, data)
 
         # Call the function to add or replace the 'location' geography column
         add_geography_column(connection, cursor, table_name)

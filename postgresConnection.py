@@ -2,13 +2,13 @@ import psycopg2
 from printStatments import connectionSuccess, modulePrint, mainScript, connectionClosed
 from portDetails import portEnv
 
-def connect_to_postgres():
+def connect_to_postgres(host, port, database):
     try:
         # Establish a connection to the PostgreSQL database
         connection = psycopg2.connect(
-            host="localhost",
-            port=portEnv,
-            database="gisdatabase"
+            host=host,
+            port=port,
+            database=database
         )
 
         # Create a cursor object to interact with the database
